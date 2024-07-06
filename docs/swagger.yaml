@@ -1,0 +1,98 @@
+definitions:
+  models.UserWeb:
+    properties:
+      isCourier:
+        type: boolean
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticate user and set JWT cookie
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWeb'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+      summary: Login a user
+      tags:
+      - users
+  /logout:
+    post:
+      description: Logout the user by clearing the JWT cookie
+      responses:
+        "200":
+          description: logged out successfully
+          schema:
+            type: string
+      summary: Logout the user
+      tags:
+      - users
+  /protected:
+    get:
+      description: Access a protected resource with a valid JWT
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: protected resource
+          schema:
+            type: string
+        "401":
+          description: unauthorized
+          schema:
+            type: string
+      summary: Access a protected resource
+      tags:
+      - protected
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with login and password
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserWeb'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: success
+          schema:
+            type: string
+        "400":
+          description: invalid request
+          schema:
+            type: string
+      summary: Register a new user
+      tags:
+      - users
+swagger: "2.0"
